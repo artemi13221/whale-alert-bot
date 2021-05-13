@@ -1,17 +1,18 @@
 import json
 import requests
 import os
+import time
 
 class WhaleAPI:
     api_key = os.environ['API_KEY']
     url = "https://api.whale-alert.io/v1"
     r = requests.get(url)
+    t = int(time.time())
             
     def errorCheck(self):
         if self.r.status_code != 200:
             print('[ERROR] errorcode : ' + str(self.r.status_code))
         
-        return self.r.status_code
 
     def connectURL(self, addUrl='', params={}):
         param = {'api_key':self.api_key}
@@ -22,17 +23,14 @@ class WhaleAPI:
         self.errorCheck()
 
     def getStatus(self):
-        self.connectURL()
+        self.connectURL(addUrl='status')
 
-    def getTransactions(self, start, end):
-        pass
-
-    def getTransactions(self, start, end, cursor):
-        pass
-
-    def getTransactions(self, start, end, cursor, limit):
-        pass
-    
-    def checkStatus(self):
-        pass
-    
+    def getTransactions(self, start = t, end = t-60, cursor=None, limit=100):
+        params = {'start' : start, 'end' : end, 'min_value' : 500000}
+        if cursor != None:
+            params['cursor'] = cursor
+        
+        if limit < 100:
+            params['limit'] = limit
+        
+        self.connectURL(addUrl='transactions', params=params)
