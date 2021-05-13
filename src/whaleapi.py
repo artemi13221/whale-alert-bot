@@ -25,6 +25,8 @@ class WhaleAPI:
     def getStatus(self):
         self.connectURL(addUrl='status')
 
+        return self.r.text
+
     def getTransactions(self, start = t, end = t-60, cursor=None, limit=100):
         params = {'start' : start, 'end' : end, 'min_value' : 500000}
         if cursor != None:
@@ -34,3 +36,5 @@ class WhaleAPI:
             params['limit'] = limit
         
         self.connectURL(addUrl='transactions', params=params)
+
+        return self.r.text
