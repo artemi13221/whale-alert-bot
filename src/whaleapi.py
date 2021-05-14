@@ -6,28 +6,28 @@ import time
 class WhaleAPI:
     api_key = os.environ['API_KEY']
     url = "https://api.whale-alert.io/v1"
-    requestData = requests.get(url)
+    request_data = requests.get(url)
     now_timestamp = int(time.time())
             
-    def errorCheck(self):
-        if self.requestData.status_code != 200:
-            print('[ERROR] errorcode : ' + str(self.requestData.status_code))
+    def error_check(self):
+        if self.request_data.status_code != 200:
+            print('[ERROR] errorcode : ' + str(self.request_data.status_code))
         
 
-    def connectURL(self, addUrl='', params={}):
+    def connect_url(self, addUrl='', params={}):
         param = {'api_key':self.api_key}
         params.update(param)
         tmpUrl = self.url + '/' + addUrl
 
-        self.requestData = requests.get(tmpUrl, params=params)
-        self.errorCheck()
+        self.request_data = requests.get(tmpUrl, params=params)
+        self.error_check()
 
-    def getStatus(self):
-        self.connectURL(addUrl='status')
+    def get_status(self):
+        self.connect_url(addUrl='status')
 
-        return self.requestData.text
+        return self.request_data.text
 
-    def getTransactions(self, start = now_timestamp, end = now_timestamp-60, cursor=None, limit=100):
+    def get_transactions(self, start = now_timestamp, end = now_timestamp-60, cursor=None, limit=100):
         params = {'start' : start, 'end' : end, 'min_value' : 500000}
         if cursor != None:
             params['cursor'] = cursor
@@ -35,6 +35,6 @@ class WhaleAPI:
         if limit < 100:
             params['limit'] = limit
         
-        self.connectURL(addUrl='transactions', params=params)
+        self.connect_url(addUrl='transactions', params=params)
 
-        return self.requestData.text
+        return self.request_data.text
