@@ -6,12 +6,12 @@ import time
 class WhaleAPI:
     api_key = os.environ['API_KEY']
     url = "https://api.whale-alert.io/v1"
-    r = requests.get(url)
-    t = int(time.time())
+    requestData = requests.get(url)
+    now_timestamp = int(time.time())
             
     def errorCheck(self):
-        if self.r.status_code != 200:
-            print('[ERROR] errorcode : ' + str(self.r.status_code))
+        if self.requestData.status_code != 200:
+            print('[ERROR] errorcode : ' + str(self.requestData.status_code))
         
 
     def connectURL(self, addUrl='', params={}):
@@ -19,15 +19,15 @@ class WhaleAPI:
         params.update(param)
         tmpUrl = self.url + '/' + addUrl
 
-        self.r = requests.get(tmpUrl, params=params)
+        self.requestData = requests.get(tmpUrl, params=params)
         self.errorCheck()
 
     def getStatus(self):
         self.connectURL(addUrl='status')
 
-        return self.r.text
+        return self.requestData.text
 
-    def getTransactions(self, start = t, end = t-60, cursor=None, limit=100):
+    def getTransactions(self, start = now_timestamp, end = now_timestamp-60, cursor=None, limit=100):
         params = {'start' : start, 'end' : end, 'min_value' : 500000}
         if cursor != None:
             params['cursor'] = cursor
@@ -37,4 +37,4 @@ class WhaleAPI:
         
         self.connectURL(addUrl='transactions', params=params)
 
-        return self.r.text
+        return self.requestData.text
