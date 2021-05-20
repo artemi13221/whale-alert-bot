@@ -6,7 +6,7 @@ class Kimp:
     upbit_api_url = 'https://api.upbit.com/v1/ticker' #param = markets=
     binance_api_url = 'https://api.binance.com/api/v1/ticker/price' #param = symbol
     exchange_rate_api_url = 'https://api.ratesapi.io/api/latest?base=USD&symbols=KRW'
-    requests_data = requests.get(upbit_api_url)
+    requests_data = None
 
     def error_log(self, msg):
         pass
@@ -49,7 +49,7 @@ class Kimp:
         else:
             return 0
 
-    def cal_kimp(self, exchange_rate=0, binance_price=0, upbit_price=0): #실행 주기 1m
+    def cal_kimp(self, exchange_rate, binance_price, upbit_price): #실행 주기 1m
         result = 0
         if binance_price == 0 or upbit_price == 0:
             print(str(datetime.date.ctime) + ' - [ERROR] price data error! check api site or param(symbol).')
