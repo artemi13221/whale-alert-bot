@@ -15,6 +15,7 @@ class WhaleAPI:
     def error_check(self):
         if self.request_data.status_code != 200:
             print(str(datetime.date.ctime) + ' - [ERROR] errorcode : ' + str(self.request_data.status_code)) 
+
         return self.requests_data.status_code
 
     def connect_url(self, addUrl='', params={}):
