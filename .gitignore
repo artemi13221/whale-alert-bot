@@ -1,3 +1,4 @@
 .env
+logs.txt
 
 src/__pycache__
