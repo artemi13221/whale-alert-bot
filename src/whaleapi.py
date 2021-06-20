@@ -33,8 +33,8 @@ class WhaleAPI:
 
         return self.request_data.json()
 
-    def get_transactions(self, start = now_timestamp, cursor=None, limit=100):
-        params = {'start' : start, 'min_value' : 500000}
+    def get_transactions(self, start=now_timestamp, cursor=None, limit=100):
+        params = {'start': start, 'min_value': 500000}
         if cursor != None:
             params['cursor'] = cursor
         
