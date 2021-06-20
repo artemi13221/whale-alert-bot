@@ -31,10 +31,10 @@ class WhaleAPI:
     def get_status(self):
         self.connect_url(addUrl='status')
 
-        return self.request_data.text
+        return self.request_data.json()
 
-    def get_transactions(self, start = now_timestamp, end = now_timestamp-60, cursor=None, limit=100):
-        params = {'start' : start, 'end' : end, 'min_value' : 500000}
+    def get_transactions(self, start=now_timestamp, cursor=None, limit=100):
+        params = {'start': start, 'min_value': 500000}
         if cursor != None:
             params['cursor'] = cursor
         
@@ -43,4 +43,4 @@ class WhaleAPI:
         
         self.connect_url(addUrl='transactions', params=params)
 
-        return self.request_data.text
+        return self.request_data.json()
