@@ -1,11 +1,13 @@
 import requests
 import datetime
+import os
 
 #exchange_rate : 6H, upbit_price, binance_price : 1m
 class Kimp:
+    api_key = os.environ.get('EXCHANGE_API_KEY')
     upbit_api_url = 'https://api.upbit.com/v1/ticker' #param = markets=
     binance_api_url = 'https://api.binance.com/api/v1/ticker/price' #param = symbol
-    exchange_rate_api_url = 'https://api.ratesapi.io/api/latest?base=USD&symbols=KRW'
+    exchange_rate_api_url = 'https://api.exchangeratesapi.io/v1/latest'
     requests_data = None
 
     def error_log(self, msg):
@@ -28,6 +30,11 @@ class Kimp:
         return status_code
 
     def get_exchange_rate(self): #갱신 주기 6h
+        params = {
+            'access_key': self.api_key,
+            'base': 'USD',
+            'symbol': 'KRW'
+        }
         if (self.connect_url(url=self.exchange_rate_api_url)) == 200:
             return self.requests_data.json()['rates']['KRW']
         else:
